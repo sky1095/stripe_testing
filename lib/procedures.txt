@@ -1,0 +1,30 @@
+
+I have to use only two Classes-
+CustomerSession for customer-specific APIs, using stripe ephemeral keys.
+StripeApi enables raw REST calls against the Stripe API.
+
+1. Initialization-
+StripeApi.init("pk_test_tsKKoE0v2GtYIhPkUAOroo2O00FtCn7JgA"); //Publishable Key
+
+2. Set Up Ephemeral Key-
+CustomerSession.initCustomerSession((apiVersion) async {
+      return await server.fetchEphemeralKey(apiVersion);
+    });
+
+fetchEphemeral Key is a custom API callback function which returns a Future SERVER response to fetch ephemeral key.
+Supposedly CustomerSession Object instance should initialize ephemeral Key within itself for future calls via this callback.
+
+3. Retrieve Current Customer-
+Retrieve Current Customer Details from CustomerSession.instance.retrieveCurrentCustomer();
+You receive the current Customer Details as a Map<String, dynamic> and store it in a class named Customer.
+
+4. Store Card details using StripeCard instance and store Card Details along with Customer ID and address.
+
+5. Create Payment Method ID from Card-
+StripeApi.instance.createPaymentMethodFromCard(card);
+Here card is an object of StripeCard. You get Payment Method ID as well as set a Payment Session.
+
+6. Use amount, customerID and Payment Method ID to create a payment Intent
+
+
+

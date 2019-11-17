@@ -1,11 +1,11 @@
 import 'package:stripe_sdk/stripe_sdk.dart';
-import 'package:stripe_sdk/stripe_sdk.dart' as prefix0;
 import 'package:stripe_sdk/stripe_sdk_ui.dart';
 import 'package:stripe_testing/homepage.dart';
 import 'package:stripe_testing/serverCalls.dart';
 
 class StripeApiCalls {
   ServerCalls server = ServerCalls();
+  String _customerID;
 
   exampleSetupStripeApi() async {
   StripeApi.init("pk_test_tsKKoE0v2GtYIhPkUAOroo2O00FtCn7JgA");
@@ -42,6 +42,12 @@ class StripeApiCalls {
   Future<String> getEphemeralKey() {
     CustomerSession.initCustomerSession(
         (apiVersion) => server.fetchEphemeralKey(apiVersion));
+    
+    CustomerSession.instance.retrieveCurrentCustomer().then((onValue){
+      _customerID = onValue["id"];
+      print("Customer ID: " + _customerID);
+      print(onValue.toString());
+    });
     
     
     CustomerSession.instance.listPaymentMethods().then((onValue){
